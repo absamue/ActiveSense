@@ -44,14 +44,15 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 
                 switch(position){
-                    case 0: Intent newActivity = new Intent(MainActivity.this, accelerometer.class);
-                        startActivity(newActivity);
+                    case 0: Intent newActivity0 = new Intent(MainActivity.this, accelerometer.class);
+                        startActivity(newActivity0);
                         break;
                     case 1:
                         break;
                     case 2:
                         break;
-                    case 3:
+                    case 3: Intent newActivity3 = new Intent(MainActivity.this, temperature.class);
+                        startActivity(newActivity3);
                         break;
                     case 4:
                         break;

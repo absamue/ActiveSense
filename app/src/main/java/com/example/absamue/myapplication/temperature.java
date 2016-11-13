@@ -12,7 +12,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class accelerometer extends AppCompatActivity implements SensorEventListener{
+public class temperature extends AppCompatActivity implements SensorEventListener{
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private ListView listview;
@@ -22,13 +22,13 @@ public class accelerometer extends AppCompatActivity implements SensorEventListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accelerometer);
+        setContentView(R.layout.activity_temperature);
 
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_TEMPERATURE);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        listview = (ListView) findViewById(R.id.accel_listview);
+        listview = (ListView) findViewById(R.id.templist);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, data);
         listview.setAdapter(adapter);
     }
@@ -36,9 +36,7 @@ public class accelerometer extends AppCompatActivity implements SensorEventListe
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         data.clear();
-        data.add("X Axis: " + Float.toString(sensorEvent.values[0]));
-        data.add("Y Axis: " + Float.toString(sensorEvent.values[1]));
-        data.add("Z Axis: " + Float.toString(sensorEvent.values[2]));
+        data.add(Float.toString(sensorEvent.values[0]) + "°C");
         adapter.notifyDataSetChanged();
     }
 
