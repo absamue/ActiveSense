@@ -29,10 +29,7 @@ public class MainActivity extends AppCompatActivity {
         List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_ALL);
 
         //add each name of sensor to list
-        ArrayList<String> list = new ArrayList();
-        for(Sensor sens : sensorList){
-            list.add(sens.getName());
-        }
+        String[] list = {"Accelerometer", "Magnetic Field", "Temperature", "Proximity", "Light", "Pressure", "Humidity"};
 
         //set listview adapter to created list
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
@@ -47,23 +44,23 @@ public class MainActivity extends AppCompatActivity {
                     case 0: Intent newActivity0 = new Intent(MainActivity.this, accelerometer.class);
                         startActivity(newActivity0);
                         break;
-                    case 1:
+                    case 1: Intent newActivity1 = new Intent(MainActivity.this, magfield.class);
+                        startActivity(newActivity1);
                         break;
-                    case 2:
-                        break;
-                    case 3: Intent newActivity3 = new Intent(MainActivity.this, temperature.class);
+                    case 2: Intent newActivity3 = new Intent(MainActivity.this, temperature.class);
                         startActivity(newActivity3);
                         break;
-                    case 4:
+                    case 3: Intent newAcitvity4 = new Intent(MainActivity.this, proximity.class);
+                        startActivity(newAcitvity4);
                         break;
-                    case 5:
+                    case 4: Intent newActivity5 = new Intent(MainActivity.this, light.class);
+                        startActivity(newActivity5);
                         break;
-                    case 6:
+                    case 5: Intent newActivity6 = new Intent(MainActivity.this, pressure.class);
+                        startActivity(newActivity6);
                         break;
-                    case 7:
-                        break;
-                    case 8:
-                        break;
+                    case 6: Intent newActivity7 = new Intent(MainActivity.this, humidity.class);
+                        startActivity(newActivity7);
                 }
             }
             @SuppressWarnings("unused")

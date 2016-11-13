@@ -16,7 +16,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".accelerometer" />
-        <activity android:name=".temperature"></activity>
+        <activity android:name=".temperature" />
+        <activity android:name=".proximity" />
+        <activity android:name=".light" />
+        <activity android:name=".pressure" />
+        <activity android:name=".humidity" />
+        <activity android:name=".magfield"></activity>
     </application>
 
 </manifest>
