@@ -24,10 +24,13 @@ public class accelerometer extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accelerometer);
 
-
+        //set up sensors
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        if(mSensor == null)
+            data.add("Sensor not supported for this device.");
+
+        //set up list
         listview = (ListView) findViewById(R.id.accel_listview);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, data);
         listview.setAdapter(adapter);
@@ -45,5 +48,17 @@ public class accelerometer extends AppCompatActivity implements SensorEventListe
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        mSensorManager.unregisterListener(this);
     }
 }
