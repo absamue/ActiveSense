@@ -24,10 +24,6 @@ public class MainActivity extends AppCompatActivity {
         //get listview
         ListView listview = (ListView) findViewById(R.id.listview);
 
-        //find all the sensors
-        SensorManager mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_ALL);
-
         //add each name of sensor to list
         String[] list = {"Accelerometer", "Magnetic Field", "Temperature", "Proximity", "Light", "Pressure", "Humidity"};
 
