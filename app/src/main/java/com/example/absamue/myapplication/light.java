@@ -51,6 +51,7 @@ public class light extends AppCompatActivity implements SensorEventListener {
         //set up graph
         graph = (GraphView) findViewById(R.id.light_graph);
         series = new LineGraphSeries<>();
+        series.setDrawDataPoints(true);
         graph.addSeries(series);
 
         //set axis labels
@@ -71,6 +72,7 @@ public class light extends AppCompatActivity implements SensorEventListener {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(10);
+
     }
 
     //update text data when it changes and get current data
@@ -101,9 +103,6 @@ public class light extends AppCompatActivity implements SensorEventListener {
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                data.clear();
-                data.add(Float.toString(current_data));
-
                 series.appendData(new DataPoint(current, current_data), true, 10);
                 current += 1;
 
@@ -116,5 +115,7 @@ public class light extends AppCompatActivity implements SensorEventListener {
     protected void onPause(){
         super.onPause();
         mSensorManager.unregisterListener(this);
+
+        mTimer.purge();
     }
 }
