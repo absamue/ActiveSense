@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -39,38 +40,45 @@ public class pressure extends AppCompatActivity implements SensorEventListener {
         //set up sensors
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
-        if(mSensor == null)
+        if(mSensor == null) {
             data.add("Sensor not supported for this device.");
+        }
 
         //set up list
         listview = (ListView) findViewById(R.id.pressure_listview);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, data);
         listview.setAdapter(adapter);
 
-        //set up graph
-        graph = (GraphView) findViewById(R.id.pressure_graph);
-        series = new LineGraphSeries<>();
-        series.setDrawDataPoints(true);
-        graph.addSeries(series);
+        if(!(mSensor == null)) {
+            //set up graph
+            graph = (GraphView) findViewById(R.id.pressure_graph);
+            series = new LineGraphSeries<>();
+            series.setDrawDataPoints(true);
+            graph.addSeries(series);
 
-        //set axis labels
-        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if (isValueX) {
-                    // show normal x values
-                    return super.formatLabel(value, isValueX) + "s";
-                } else {
-                    // show lx for y values
-                    return super.formatLabel(value, isValueX) + "hPa/mbar";
+            //set axis labels
+            graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+                @Override
+                public String formatLabel(double value, boolean isValueX) {
+                    if (isValueX) {
+                        // show normal x values
+                        return super.formatLabel(value, isValueX) + "s";
+                    } else {
+                        // show lx for y values
+                        return super.formatLabel(value, isValueX) + " KhPa/mbar";
+                    }
                 }
-            }
-        });
+            });
 
-        //set bounds of graph
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(10);
+            //set bounds of graph
+            graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setMinX(0);
+            graph.getViewport().setMaxX(10);
+        }
+        else{
+            View g = findViewById(R.id.pressure_graph);
+            g.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -79,7 +87,7 @@ public class pressure extends AppCompatActivity implements SensorEventListener {
         data.add(Float.toString(sensorEvent.values[0]) + " hPa/mbar");
 
         //get data for use in graph
-        current_data = sensorEvent.values[0];
+        current_data = sensorEvent.values[0] / 1000;
 
         adapter.notifyDataSetChanged();
     }
@@ -95,14 +103,17 @@ public class pressure extends AppCompatActivity implements SensorEventListener {
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         //update graph one a second
-        mTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                series.appendData(new DataPoint(current, current_data), true, 10);
-                current += 1;
+        if (!(mSensor == null)) {
 
-            }
-        }, 1000, 1000);
+            mTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    series.appendData(new DataPoint(current, current_data), true, 10);
+                    current += 1;
+
+                }
+            }, 1000, 1000);
+        }
     }
 
     @Override

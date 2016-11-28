@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -54,25 +55,31 @@ public class light extends AppCompatActivity implements SensorEventListener {
         series.setDrawDataPoints(true);
         graph.addSeries(series);
 
-        //set axis labels
-        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if (isValueX) {
-                    // show normal x values
-                    return super.formatLabel(value, isValueX) + "s";
-                } else {
-                    // show lx for y values
-                    return super.formatLabel(value, isValueX) + " lx";
+        if (!(mSensor == null)) {
+            //set axis labels
+            graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+                @Override
+                public String formatLabel(double value, boolean isValueX) {
+                    if (isValueX) {
+                        // show normal x values
+                        return super.formatLabel(value, isValueX) + "s";
+                    } else {
+                        // show lx for y values
+                        return super.formatLabel(value, isValueX) + " lx";
+                    }
                 }
-            }
-        });
+            });
 
-        //set bounds of graph
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(10);
+            //set bounds of graph
+            graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setMinX(0);
+            graph.getViewport().setMaxX(10);
+        }
+        else{
+            View g = findViewById(R.id.light_graph);
+            g.setVisibility(View.GONE);
 
+        }
     }
 
     //update text data when it changes and get current data
@@ -99,16 +106,17 @@ public class light extends AppCompatActivity implements SensorEventListener {
         super.onResume();
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-        //update graph one a second
-        mTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                series.appendData(new DataPoint(current, current_data), true, 10);
-                current += 1;
+        if (!(mSensor == null)) {
+            //update graph one a second
+            mTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    series.appendData(new DataPoint(current, current_data), true, 10);
+                    current += 1;
 
-            }
-        }, 1000, 1000);
-
+                }
+            }, 1000, 1000);
+        }
    }
 
     @Override
