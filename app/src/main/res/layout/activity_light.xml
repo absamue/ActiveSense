@@ -11,12 +11,6 @@
     tools:context="com.example.absamue.myapplication.light">
 
 
-    <com.jjoe64.graphview.GraphView
-        android:layout_width="match_parent"
-        android:layout_height="420dip"
-        android:id="@+id/light_graph"
-        android:layout_alignParentBottom="true" />
-
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,4 +19,13 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="420dip"
+        android:id="@+id/light_graph"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="170dp" />
 </RelativeLayout>
